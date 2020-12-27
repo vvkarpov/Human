@@ -1,6 +1,7 @@
 package ru.vkarpov.dev;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +14,8 @@ public class Solution {
     public static void main(String[] args) {
         //исправьте outputStream/inputStream в соответствии с путем к вашему реальному файлу
         try {
-            File your_file_name = File.createTempFile("your_file_name", null);
+            File your_file_name = new File("/Users/Vlad/Downloads/@Learning/db.txt");
+            //File your_file_name = File.createTempFile("/Users/Vlad/Downloads/@Learning/db.txt", null);
             OutputStream outputStream = new FileOutputStream(your_file_name);
             InputStream inputStream = new FileInputStream(your_file_name);
 
@@ -24,6 +26,12 @@ public class Solution {
             Human somePerson = new Human();
             somePerson.load(inputStream);
             inputStream.close();
+
+            if (ivanov.equals(somePerson)) {
+                System.out.println("Обьекты равны!");
+            } else {
+                System.out.println("Обьекты не равны!");
+            }
             //check here that ivanov equals to somePerson - проверьте тут, что ivanov и somePerson равны
 
         } catch (IOException e) {
@@ -68,6 +76,18 @@ public class Solution {
         }
 
         public void save(OutputStream outputStream) throws Exception {
+
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(name + ",");
+
+            //outputStream.write(name.getBytes(StandardCharsets.UTF_8));
+
+            for (Asset as : assets){
+                stringBuilder.append(as.getName() + ":" + as.getPrice() + ";");
+            }
+            stringBuilder.append("\n");
+            outputStream.write(String.valueOf(stringBuilder).getBytes(StandardCharsets.UTF_8));
+            outputStream.flush();
             //implement this method - реализуйте этот метод
         }
 
