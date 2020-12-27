@@ -75,8 +75,12 @@ public class Solution {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(name + ",");
 
-            for (Asset as : assets){
-                stringBuilder.append(as.getName() + ":" + as.getPrice() + ";");
+            if (assets.size() == 0){
+                stringBuilder.append("null" + ";");
+            }else{
+                for (Asset as : assets){
+                    stringBuilder.append(as.getName() + ":" + as.getPrice() + ";");
+                }
             }
             stringBuilder.append("\n");
             outputStream.write(String.valueOf(stringBuilder).getBytes(StandardCharsets.UTF_8));
@@ -92,13 +96,17 @@ public class Solution {
                 String[] array = str.split(",");
                 name = array[0];
                 String[] array2 = array[1].split(";");
-                for (int i = 0; i < array2.length; i++) {
-                    String[] array3 = array2[i].split(":");
-                    assets.add(new Asset(array3[0], Double.parseDouble(array3[1])));
+
+                if (array2[0].equals("null")){
+
+                }else{
+                    for (int i = 0; i < array2.length; i++) {
+                        String[] array3 = array2[i].split(":");
+                        assets.add(new Asset(array3[0], Double.parseDouble(array3[1])));
+                    }
                 }
             }
         }
-
     }
 
 }
